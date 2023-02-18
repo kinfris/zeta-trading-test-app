@@ -1,0 +1,23 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.title{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.textField{
+    margin: 40px 20px 20px;
+}
+
+.buttons_wrapper{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+

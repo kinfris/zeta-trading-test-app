@@ -1,0 +1,56 @@
+.root {
+    cursor: pointer;
+    display: flex;
+    padding-left: 30px;
+}
+
+
+.name {
+    font-size: 24px;
+}
+
+.nestedNode {
+}
+
+
+.wrapper {
+    display: flex;
+    gap: 15px;
+}
+
+.icons {
+    display: flex;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.tree_item {
+    cursor: pointer;
+}
+
+.hovered_tree_item {
+    background-color: aliceblue;
+}
+
+.chevronIcon {
+    rotate: 90deg;
+}
+
+.selected_item {
+    background-color: deepskyblue;
+}
+
+.indent_wrapper {
+    padding-left: 30px;
+    background-color: white;
+}
+
+
+@media (max-width: 550px) {
+    .name {
+        font-size: 16px;
+    }
+}

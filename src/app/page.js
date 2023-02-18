@@ -1,91 +1,66 @@
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from './page.module.css'
+"use client"
 
-const inter = Inter({ subsets: ['latin'] })
+import styles from './page.module.css'
+import {createContext, useEffect, useState} from "react";
+import {RecursiveNodes} from "@/components/RecursiveNodes/RecursiveNodes";
+import {treeApi} from "@/services/tree.service";
+import {CreateNewNodeDialog} from "@/components/Dialogs/CreateNewNodeDialog";
+import {EditNodeDialog} from "@/components/Dialogs/EditNodeDialog";
+import {DeleteNodeDialog} from "@/components/Dialogs/DeleteNodeDialog";
+
+export const ChangeContext = createContext(null);
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    const [state, setState] = useState(null);
+    const [isChanged, setIsChanged] = useState(false);
+    const [selectedNodeId, setSelectedNodeId] = useState(null);
+    const [hoveredNodeId, setHoveredNodeId] = useState(null);
+    const [selectedNodeName, setSelectedNodeName] = useState('');
+    const [isShowCreateDialog, setIsShowCreateDialog] = useState(false);
+    const [isShowEditDialog, setIsShowEditDialog] = useState(false);
+    const [isShowDeleteDialog, setIsShowDeleteDialog] = useState(false);
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
+    useEffect(() => {
+        setIsChanged(false)
+        const helper = async () => {
+            const data = await treeApi.getTree();
+            if (data) {
+                setState(data);
+            }
+        }
 
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
+        helper();
+    }, [isChanged]);
+
+
+    return (
+        <ChangeContext.Provider
+            value={{
+                isChanged,
+                setIsChanged
+            }}
         >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+            <main className={styles.main}>
+                {state &&
+                    <RecursiveNodes data={[state]} treeId={state.id} selectedNodeId={selectedNodeId}
+                                    setSelectedNodeId={setSelectedNodeId}
+                                    setSelectedNodeName={setSelectedNodeName}
+                                    setIsShowCreateDialog={setIsShowCreateDialog}
+                                    setIsShowEditDialog={setIsShowEditDialog}
+                                    setIsShowDeleteDialog={setIsShowDeleteDialog}
+                                    hoveredNodeId={hoveredNodeId}
+                                    setHoveredNodeId={setHoveredNodeId}
+                    />
+                }
+                <div>
+                    <CreateNewNodeDialog onClose={setIsShowCreateDialog} isOpen={isShowCreateDialog}
+                                         nodeId={selectedNodeId}/>
+                    <EditNodeDialog onClose={setIsShowEditDialog} isOpen={isShowEditDialog} nodeId={selectedNodeId}
+                                    name={selectedNodeName}/>
+                    <DeleteNodeDialog onClose={setIsShowDeleteDialog} isOpen={isShowDeleteDialog}
+                                      nodeId={selectedNodeId} name={selectedNodeName}/>
+                </div>
+            </main>
+        </ChangeContext.Provider>
+    )
 }
