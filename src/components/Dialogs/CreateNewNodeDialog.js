@@ -1,11 +1,13 @@
-import {Button, Dialog, DialogTitle, TextField,} from "@mui/material";
-import {useContext, useState} from "react";
-import {treeApi} from "@/services/tree.service";
-import {ChangeContext} from "@/app/page";
+import { Button, Dialog, DialogTitle, TextField, } from "@mui/material";
+import { useContext, useState } from "react";
+import { treeApi } from "@/services/tree.service";
+import { ChangeContext } from "@/app/page";
 import styles from "./dialogs.module.css"
 
 
-export const CreateNewNodeDialog = ({isOpen, onClose, nodeId}) => {
+const minNameLength = 4;
+
+export const CreateNewNodeDialog = ({ isOpen, onClose, nodeId }) => {
     const [value, setValue] = useState('');
     const [isError, setIsError] = useState(false);
 
@@ -20,7 +22,7 @@ export const CreateNewNodeDialog = ({isOpen, onClose, nodeId}) => {
     };
 
     const createNode = async () => {
-        if (value.length > 4) {
+        if (value.length > minNameLength) {
             const response = await treeApi.createNode(nodeId, value)
             onClose(false);
             setIsChanged(true);
@@ -38,7 +40,7 @@ export const CreateNewNodeDialog = ({isOpen, onClose, nodeId}) => {
             <div className={styles.wrapper}>
                 <DialogTitle className={styles.title}>Create new node</DialogTitle>
                 <TextField id="outlined-basic" label="Node name" variant="outlined" value={value}
-                           onChange={changeHandler} error={isError} className={styles.textField}/>
+                    onChange={changeHandler} error={isError} className={styles.textField} />
                 <div className={styles.buttons_wrapper}>
                     <Button variant="outlined" onClick={handleClose}>Cancel</Button>
                     <Button variant="contained" onClick={createNode}>Create</Button>

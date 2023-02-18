@@ -1,11 +1,11 @@
-import {Button, Dialog, DialogTitle, TextField,} from "@mui/material";
-import {useEffect, useState, useContext} from "react";
-import {treeApi} from "@/services/tree.service";
-import {ChangeContext} from "@/app/page";
+import { Button, Dialog, DialogTitle, TextField, } from "@mui/material";
+import { useEffect, useState, useContext } from "react";
+import { treeApi } from "@/services/tree.service";
+import { ChangeContext } from "@/app/page";
 import styles from "./dialogs.module.css";
 
 
-export const EditNodeDialog = ({isOpen, onClose, nodeId, name}) => {
+export const EditNodeDialog = ({ isOpen, onClose, nodeId, name }) => {
     const [value, setValue] = useState('');
     const [isError, setIsError] = useState(false);
     const {
@@ -40,7 +40,7 @@ export const EditNodeDialog = ({isOpen, onClose, nodeId, name}) => {
             <div className={styles.wrapper}>
                 <DialogTitle className={styles.title}>Rename node</DialogTitle>
                 <TextField id="outlined-basic" label="Node name" variant="outlined" value={value}
-                           onChange={changeHandler} error={isError} className={styles.textField}/>
+                    onChange={changeHandler} error={isError} className={styles.textField} />
                 <div className={styles.buttons_wrapper}>
                     <Button variant="outlined" onClick={handleClose}>Cancel</Button>
                     <Button variant="contained" onClick={createNode}>Rename</Button>

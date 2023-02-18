@@ -1,11 +1,11 @@
-import {Button, Dialog, DialogTitle} from "@mui/material";
-import {useContext, useState} from "react";
-import {treeApi} from "@/services/tree.service";
-import {ChangeContext} from "@/app/page";
+import { Button, Dialog, DialogTitle } from "@mui/material";
+import { useContext, useState } from "react";
+import { treeApi } from "@/services/tree.service";
+import { ChangeContext } from "@/app/page";
 import styles from "./dialogs.module.css";
 
 
-export const DeleteNodeDialog = ({isOpen, onClose, nodeId, name}) => {
+export const DeleteNodeDialog = ({ isOpen, onClose, nodeId, name }) => {
     const {
         isChanged,
         setIsChanged

@@ -1,12 +1,12 @@
 "use client"
 
 import styles from './page.module.css'
-import {createContext, useEffect, useState} from "react";
-import {RecursiveNodes} from "@/components/RecursiveNodes/RecursiveNodes";
-import {treeApi} from "@/services/tree.service";
-import {CreateNewNodeDialog} from "@/components/Dialogs/CreateNewNodeDialog";
-import {EditNodeDialog} from "@/components/Dialogs/EditNodeDialog";
-import {DeleteNodeDialog} from "@/components/Dialogs/DeleteNodeDialog";
+import { createContext, useEffect, useState } from "react";
+import { RecursiveNodes } from "@/components/RecursiveNodes/RecursiveNodes";
+import { treeApi } from "@/services/tree.service";
+import { CreateNewNodeDialog } from "@/components/Dialogs/CreateNewNodeDialog";
+import { EditNodeDialog } from "@/components/Dialogs/EditNodeDialog";
+import { DeleteNodeDialog } from "@/components/Dialogs/DeleteNodeDialog";
 
 export const ChangeContext = createContext(null);
 
@@ -43,22 +43,22 @@ export default function Home() {
             <main className={styles.main}>
                 {state &&
                     <RecursiveNodes data={[state]} treeId={state.id} selectedNodeId={selectedNodeId}
-                                    setSelectedNodeId={setSelectedNodeId}
-                                    setSelectedNodeName={setSelectedNodeName}
-                                    setIsShowCreateDialog={setIsShowCreateDialog}
-                                    setIsShowEditDialog={setIsShowEditDialog}
-                                    setIsShowDeleteDialog={setIsShowDeleteDialog}
-                                    hoveredNodeId={hoveredNodeId}
-                                    setHoveredNodeId={setHoveredNodeId}
+                        setSelectedNodeId={setSelectedNodeId}
+                        setSelectedNodeName={setSelectedNodeName}
+                        setIsShowCreateDialog={setIsShowCreateDialog}
+                        setIsShowEditDialog={setIsShowEditDialog}
+                        setIsShowDeleteDialog={setIsShowDeleteDialog}
+                        hoveredNodeId={hoveredNodeId}
+                        setHoveredNodeId={setHoveredNodeId}
                     />
                 }
                 <div>
                     <CreateNewNodeDialog onClose={setIsShowCreateDialog} isOpen={isShowCreateDialog}
-                                         nodeId={selectedNodeId}/>
+                        nodeId={selectedNodeId} />
                     <EditNodeDialog onClose={setIsShowEditDialog} isOpen={isShowEditDialog} nodeId={selectedNodeId}
-                                    name={selectedNodeName}/>
+                        name={selectedNodeName} />
                     <DeleteNodeDialog onClose={setIsShowDeleteDialog} isOpen={isShowDeleteDialog}
-                                      nodeId={selectedNodeId} name={selectedNodeName}/>
+                        nodeId={selectedNodeId} name={selectedNodeName} />
                 </div>
             </main>
         </ChangeContext.Provider>
